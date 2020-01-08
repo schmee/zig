@@ -27,9 +27,9 @@ pub const LoggingAllocator = struct {
     fn realloc(allocator: *Allocator, old_mem: []u8, old_align: u29, new_size: usize, new_align: u29) ![]u8 {
         const self = @fieldParentPtr(Self, "allocator", allocator);
         if (old_mem.len == 0) {
-            self.out_stream.print("allocation of {} ", new_size) catch {};
+            self.out_stream.print("allocation of {} ", .{new_size}) catch {};
         } else {
-            self.out_stream.print("resize from {} to {} ", old_mem.len, new_size) catch {};
+            self.out_stream.print("resize from {} to {} ", .{old_mem.len, new_size}) catch {};
         }
         const result = self.parent_allocator.reallocFn(self.parent_allocator, old_mem, old_align, new_size, new_align);
         if (result) |buff| {
@@ -44,9 +44,9 @@ pub const LoggingAllocator = struct {
         const self = @fieldParentPtr(Self, "allocator", allocator);
         const result = self.parent_allocator.shrinkFn(self.parent_allocator, old_mem, old_align, new_size, new_align);
         if (new_size == 0) {
-            self.out_stream.print("free of {} bytes success!\n", old_mem.len) catch {};
+            self.out_stream.print("free of {} bytes success!\n", .{old_mem.len}) catch {};
         } else {
-            self.out_stream.print("shrink from {} bytes to {} bytes success!\n", old_mem.len, new_size) catch {};
+            self.out_stream.print("shrink from {} bytes to {} bytes success!\n", .{old_mem.len, new_size}) catch {};
         }
         return result;
     }
